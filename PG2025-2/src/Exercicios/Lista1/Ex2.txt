@@ -1,0 +1,8 @@
+2. O que são primitivas gráficas? Como fazemos o armazenamento dos vértices na OpenGL?
+
+As primitivas gráficas são as formas que a GPU utiliza para desenhar 
+cenas, como pontos, linhas e triângulos. A partir dessas primitivas, são criados modelos 
+mais complexos. Para representar essas primitivas, precisamos armazenar os vértices na 
+memória da GPU. No OpenGL, isso é feito através de buffers, que guardam 
+os dados dos vértices e permitem que a GPU os utilize de forma eficiente durante a renderização.
+

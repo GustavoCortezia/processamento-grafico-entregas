@@ -1,0 +1,8 @@
+3. Explique o que é VBO, VAO e EBO, e como se relacionam 
+(se achar mais fácil, pode fazer um gráfico representando a relação entre eles).
+
+O VBO (Vertex Buffer Object) é um buffer que armazena os vértices na GPU para 
+renderização eficiente. O VAO (Vertex Array Object) é um objeto que armazena
+o estado da configuração de como os vértices armazenados nos VBOs serão interpretados 
+como por exemplo, posição, cor e textura. O EBO (Element Buffer Object) armazena os 
+índices que determinam a ordem de desenho dos vértices, evitando duplicações.

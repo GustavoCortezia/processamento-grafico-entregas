@@ -1,0 +1,8 @@
+1. O que é a GLSL? Quais os dois tipos de shaders são obrigatórios no pipeline
+programável da versão atual que trabalhamos em aula e o que eles processam?
+
+    A GLSL (OpenGL Shading Language) é a linguagem de programação utilizada para escrever
+shaders, que são programas executados diretamente na GPU. No pipeline programável moderno
+do OpenGL, são obrigatórios o Vertex Shader, responsável por processar cada vértice, e o
+Fragment Shader, que calcula a cor final de cada fragmento da cena, permitindo efeitos
+visuais como iluminação e texturização.
