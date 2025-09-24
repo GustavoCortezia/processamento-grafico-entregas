@@ -53,6 +53,13 @@ set(EXERCISES
     Exercicios/HelloTransform
     Exercicios/Lista1/Ex5
     Exercicios/Lista1/Ex8
+    Exercicios/Lista1/Ex6
+    Exercicios/Lista1/Ex6a
+    Exercicios/Lista1/Ex6b
+    Exercicios/Lista1/Ex6c
+    Exercicios/Lista1/Ex6d
+    Exercicios/Lista1/Ex6e
+    Exercicios/Lista1/Ex7
 )
 
 add_compile_options(-Wno-pragmas)
