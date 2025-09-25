@@ -1,0 +1,17 @@
+(a) 
+VAO: objeto que registra o layout dos atributos e a associação do EBO, 
+permitindo reativar tudo com um único glBindVertexArray ao desenhar.
+
+VBO intercalado: buffer na GPU que guarda, por vértice, os dados [x y z r g b],
+descritos no VAO por dois atributos com o mesmo stride e offsets diferentes.
+
+EBO: buffer de índices (ex.: 0,1,2) que referencia vértices do VBO para montar
+o triângulo com glDrawElements sem duplicar dados.
+
+
+(b) No vertex shader, os atributos de cada vértice (como posição e cor) são
+ declarados como entradas e identificados por um índice de “location”; essa 
+ associação pode ser definida no próprio shader (via layout) ou pela aplicação 
+ ao vincular o programa, enquanto o VAO descreve formato, stride e offset dos dados
+ para cada location. Na execução, a GPU lê posição e cor nas locations correspondentes,
+ usa a posição para calcular a saída de posição do pipeline e encaminha a cor como variável de saída para interpolação no rasterizador e uso pelo fragment shader.

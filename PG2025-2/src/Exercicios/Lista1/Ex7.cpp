@@ -177,7 +177,7 @@ int main()
 
 		// Chamada de desenho - drawcall
 		// Poligono Preenchido - GL_TRIANGLES
-        glDrawArrays(GL_LINE_LOOP, 0, 100);
+        glDrawArrays(GL_LINE_STRIP, 0, 500);
 		// glBindVertexArray(0); // Desnecessário aqui, pois não há múltiplos VAOs
 
 		// Troca os buffers da tela
@@ -256,35 +256,40 @@ int setupShader()
 // Apenas atributo coordenada nos vértices
 // 1 VBO com as coordenadas, VAO com apenas 1 ponteiro para atributo
 // A função retorna o identificador do VAO
-int setupGeometry()
-{
-     int num_segments = 100;  // número de pontos para aproximar o círculo
-    float radius = 0.0f;     // raio do círculo
-    GLfloat vertices[3 * num_segments];
+int setupGeometry() { 
 
-    for (int i = 0; i < num_segments; i++) {
-        float theta = 2.0f * M_PI * float(i) / float(num_segments);
-        float x = radius * cos(theta);
-        float y = radius * sin(theta);
-        vertices[3 * i]     = x;
-        vertices[3 * i + 1] = y;
-        vertices[3 * i + 2] = 0.0f;
-        num_segments += 2;
-    }
+	const int num_segments = 500; 
+	const float turns = 3.5f; 
+	const float theta_max = 2.0f * M_PI * turns;
+	 const float r_max = 0.9f; 
+	 const float b = r_max / theta_max; 
+	 
+GLfloat vertices[3 * num_segments];
 
-    GLuint VBO, VAO;
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+for (int i = 0; i < num_segments; i++) {
+    float t = (num_segments > 1) ? (float)i / (float)(num_segments - 1) : 0.0f; // 0..1
+    float theta = t * theta_max;
+    float r = b * theta;
+    float x = r * cos(theta);
+    float y = r * sin(theta);
+    vertices[3 * i + 0] = x;
+    vertices[3 * i + 1] = y;
+    vertices[3 * i + 2] = 0.0f;
+}
 
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
+GLuint VBO, VAO;
+glGenBuffers(1, &VBO);
+glBindBuffer(GL_ARRAY_BUFFER, VBO);
+glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
-    glEnableVertexAttribArray(0);
+glGenVertexArrays(1, &VAO);
+glBindVertexArray(VAO);
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
+glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+glEnableVertexAttribArray(0);
 
-    return VAO;
+glBindBuffer(GL_ARRAY_BUFFER, 0);
+glBindVertexArray(0);
+
+return VAO;
 }

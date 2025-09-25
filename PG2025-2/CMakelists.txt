@@ -60,6 +60,7 @@ set(EXERCISES
     Exercicios/Lista1/Ex6d
     Exercicios/Lista1/Ex6e
     Exercicios/Lista1/Ex7
+    Exercicios/Lista1/Ex9
 )
 
 add_compile_options(-Wno-pragmas)
