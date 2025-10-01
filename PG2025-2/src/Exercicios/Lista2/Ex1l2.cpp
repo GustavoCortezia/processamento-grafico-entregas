@@ -139,7 +139,13 @@ int main()
 	double title_countdown_s = 0.1; // Intervalo para atualizar o título da janela com o FPS.
 
 	// Criação da matriz de projeção
-	mat4 projection = ortho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
+    //mat4 projection = ortho(-10.0, 10.0, -10.0, 10.0, -1.0, 1.0);
+    mat4 projection = ortho(0.0, 800.0, 600.0, 0.0, -1.0, 1.0);
+
+    
+
+
+
 
 	// Utilizamos a variáveis do tipo uniform em GLSL para armazenar esse tipo de info
 	// que não está nos buffers

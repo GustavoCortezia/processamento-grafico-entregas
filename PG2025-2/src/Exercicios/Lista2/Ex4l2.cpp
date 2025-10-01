@@ -50,7 +50,7 @@ int setupShader();
 int setupGeometry();
 
 // Dimensões da janela (pode ser alterado em tempo de execução)
-const GLuint WIDTH = 800, HEIGHT = 600;
+const GLuint width = 800, height = 600;
 
 // Código fonte do Vertex Shader (em GLSL): ainda hardcoded
 const GLchar *vertexShaderSource = R"(
@@ -101,7 +101,7 @@ int main()
 	// #endif
 
 	// Criação da janela GLFW
-	GLFWwindow *window = glfwCreateWindow(WIDTH, HEIGHT, "Ola Triangulo! -- Rossana", nullptr, nullptr);
+	GLFWwindow *window = glfwCreateWindow(width, height, "Ola Triangulo! -- Rossana", nullptr, nullptr);
 	if (!window)
 	{
 		std::cerr << "Falha ao criar a janela GLFW" << std::endl;
@@ -139,7 +139,13 @@ int main()
 	double title_countdown_s = 0.1; // Intervalo para atualizar o título da janela com o FPS.
 
 	// Criação da matriz de projeção
-	mat4 projection = ortho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
+    mat4 projection = ortho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
+    //mat4 projection = ortho(0.0, 800.0, 600.0, 0.0, -1.0, 1.0);
+
+    
+
+
+
 
 	// Utilizamos a variáveis do tipo uniform em GLSL para armazenar esse tipo de info
 	// que não está nos buffers
@@ -149,6 +155,25 @@ int main()
 	// Loop da aplicação - "game loop"
 	while (!glfwWindowShouldClose(window))
 	{
+// Limpa a tela inteira uma vez
+glViewport(0, 0, width, height);
+glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+// Superior esquerdo
+glViewport(0, height/2, width/2, height/2);
+
+// Superior direito
+glViewport(width/2, height/2, width/2, height/2);
+
+// Inferior esquerdo
+glViewport(0, 0, width/2, height/2);
+
+// Inferior direito
+glViewport(width/2, 0, width/2, height/2);
+
+glfwSwapBuffers(window);
+glfwPollEvents();
+
 		// Este trecho de código é totalmente opcional: calcula e mostra a contagem do FPS na barra de título
 		{
 			double curr_s = glfwGetTime();		// Obtém o tempo atual.
@@ -183,7 +208,9 @@ int main()
 		// Definindo as dimensões da viewport com as mesmas dimensões da janela da aplicação
 		int width, height;
 		glfwGetFramebufferSize(window, &width, &height);
-		glViewport(400, 300, 400, 300);
+		//glViewport(400, 300, 400, 300);
+        glViewport(width/2, height/2, width/2, height/2);
+
 
 		glBindVertexArray(VAO); // Conectando ao buffer de geometria
 

@@ -1,0 +1,11 @@
+O que acontece ao posicionar os objetos:
+
+As coordenadas do “mundo” passam a ser pixels de tela: (0,0) é o canto superior esquerdo, X cresce para a direita e Y cresce para baixo.
+Colocar um vértice em (100, 100) o desenha 100 pixels à direita e 100 pixels abaixo do topo. Tamanhos e distâncias em “unidades” são diretamente tamanhos em pixels.
+Observação: no seu código a viewport está glViewport(400, 300, 400, 300). Assim, você só verá a região de pixels [400..800] em X e [300..600] em Y. Se quiser mapear toda a janela, use glViewport(0, 0, width, height).
+Por que é útil:
+
+Facilita desenho de UI/HUD, texto e sprites 2D: posicionamento e tamanho ficam intuitivos, sem precisar converter de “mundo” para tela.
+É ideal para overlays sobre cenas 3D (menus, pontuação), pois independe de perspectiva.
+Permite controles de layout precisos em pixels e ancoragens como “top-left”.
+Se a janela mudar de tamanho, basta atualizar a projeção para ortho(0, novaLargura, novaAltura, 0, -1, 1) para manter o mapeamento 1:1 em pixels.

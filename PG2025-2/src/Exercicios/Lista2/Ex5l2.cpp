@@ -50,7 +50,7 @@ int setupShader();
 int setupGeometry();
 
 // Dimensões da janela (pode ser alterado em tempo de execução)
-const GLuint WIDTH = 800, HEIGHT = 600;
+const GLuint width = 800, height = 600;
 
 // Código fonte do Vertex Shader (em GLSL): ainda hardcoded
 const GLchar *vertexShaderSource = R"(
@@ -101,7 +101,7 @@ int main()
 	// #endif
 
 	// Criação da janela GLFW
-	GLFWwindow *window = glfwCreateWindow(WIDTH, HEIGHT, "Ola Triangulo! -- Rossana", nullptr, nullptr);
+	GLFWwindow *window = glfwCreateWindow(width, height, "Ola Triangulo! -- Rossana", nullptr, nullptr);
 	if (!window)
 	{
 		std::cerr << "Falha ao criar a janela GLFW" << std::endl;
@@ -139,63 +139,53 @@ int main()
 	double title_countdown_s = 0.1; // Intervalo para atualizar o título da janela com o FPS.
 
 	// Criação da matriz de projeção
-	mat4 projection = ortho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
+    mat4 projection = ortho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
+    //mat4 projection = ortho(0.0, 800.0, 600.0, 0.0, -1.0, 1.0);
+
+    
+
+
+
 
 	// Utilizamos a variáveis do tipo uniform em GLSL para armazenar esse tipo de info
 	// que não está nos buffers
 	// Mandar a matriz de projeção para o shader
 	glUniformMatrix4fv(glGetUniformLocation(shaderID, "projection"),1,GL_FALSE,value_ptr(projection));
 
-	// Loop da aplicação - "game loop"
-	while (!glfwWindowShouldClose(window))
-	{
-		// Este trecho de código é totalmente opcional: calcula e mostra a contagem do FPS na barra de título
-		{
-			double curr_s = glfwGetTime();		// Obtém o tempo atual.
-			double elapsed_s = curr_s - prev_s; // Calcula o tempo decorrido desde o último frame.
-			prev_s = curr_s;					// Atualiza o "tempo anterior" para o próximo frame.
+while (!glfwWindowShouldClose(window))
+{
+    glfwPollEvents();
 
-			// Exibe o FPS, mas não a cada frame, para evitar oscilações excessivas.
-			title_countdown_s -= elapsed_s;
-			if (title_countdown_s <= 0.0 && elapsed_s > 0.0)
-			{
-				double fps = 1.0 / elapsed_s; // Calcula o FPS com base no tempo decorrido.
+    int fbWidth = 0, fbHeight = 0;
+    glfwGetFramebufferSize(window, &fbWidth, &fbHeight);
 
-				// Cria uma string e define o FPS como título da janela.
-				char tmp[256];
-				sprintf(tmp, "Ola Triangulo! -- Rossana\tFPS %.2lf", fps);
-				glfwSetWindowTitle(window, tmp);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
 
-				title_countdown_s = 0.1; // Reinicia o temporizador para atualizar o título periodicamente.
-			}
-		}
+    glUseProgram(shaderID);
+    glBindVertexArray(VAO);
 
-		// Checa se houveram eventos de input (key pressed, mouse moved etc.) e chama as funções de callback correspondentes
-		glfwPollEvents();
+    // Desenha no canto superior esquerdo
+    glViewport(0, fbHeight/2, fbWidth/2, fbHeight/2);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
 
-		// Limpa o buffer de cor
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // cor de fundo
-		glClear(GL_COLOR_BUFFER_BIT);
+    // Desenha no canto superior direito
+    glViewport(fbWidth/2, fbHeight/2, fbWidth/2, fbHeight/2);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
 
-		glLineWidth(10);
-		glPointSize(20);
+    // Desenha no canto inferior esquerdo
+    glViewport(0, 0, fbWidth/2, fbHeight/2);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
 
-		// Definindo as dimensões da viewport com as mesmas dimensões da janela da aplicação
-		int width, height;
-		glfwGetFramebufferSize(window, &width, &height);
-		glViewport(400, 300, 400, 300);
+    // Desenha no canto inferior direito
+    glViewport(fbWidth/2, 0, fbWidth/2, fbHeight/2);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
 
-		glBindVertexArray(VAO); // Conectando ao buffer de geometria
+    glBindVertexArray(0);
 
-		// Chamada de desenho - drawcall
-		// Poligono Preenchido - GL_TRIANGLES
-		glDrawArrays(GL_TRIANGLES, 0, 6);
+    glfwSwapBuffers(window);
 
-		glBindVertexArray(0); // Desnecessário aqui, pois não há múltiplos VAOs
-
-		// Troca os buffers da tela
-		glfwSwapBuffers(window);
-	}
+}
 	// Pede pra OpenGL desalocar os buffers
 	glDeleteVertexArrays(1, &VAO);
 	// Finaliza a execução da GLFW, limpando os recursos alocados por ela
